@@ -8,12 +8,24 @@ let colorResult = await searchColor(colorSearch);
 let typeResult = await searchType(typeSearch)
 let regionResult = await searchRegion(regionSearch)
 
+
   let instersection = (...args) => {
       let sortSets = [];
+      let sortSizes = []
 
       for (let arg in args) {
-        sortSets.push(new Set(args[arg]))
+        sortSets.push(new Set(args[arg].sort((a,b) => a-b)))
       }
+
+      for (let set of sortSets) {
+        sortSizes.push(set.size)
+      }
+
+      let minIndex = sortSizes.indexOf(Math.min(...sortSizes));
+
+
+      [sortSets[0], sortSets[minIndex]] = [sortSets[minIndex],sortSets[0]]
+
 
       let [sortPrime, ...sortRest] = sortSets;
 
@@ -30,9 +42,12 @@ let regionResult = await searchRegion(regionSearch)
 
   }
 
+  let final = instersection(regionResult, typeResult, colorResult,);
 
-  let final = instersection(colorResult, regionResult, typeResult);
-  console.log(final);
+
+  // console.log(final);
+
+  return final
 }
 
 
