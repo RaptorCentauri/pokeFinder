@@ -6,8 +6,6 @@ const getRegionChoices = async () => {
 	try {
 		let response = await axios.get(`https://pokeapi.co/api/v2/region/`);
 
-    console.log(response);
-
 		let regions = response.data.results;
 
 		for (let region in regions) {

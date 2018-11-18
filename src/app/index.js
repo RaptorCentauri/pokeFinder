@@ -1,19 +1,25 @@
 import "babel-polyfill";
-import getColorChoices from '../pokedexLogic/getColorChoices'
-import getTypeChoices from '../pokedexLogic/getTypeChoices'
-import getRegionChoices from '../pokedexLogic/getRegionChoices'
 
-
-
-
-import React from 'react';
 import {render} from 'react-dom';
+import React from 'react';
+
+import colorSearch from '../pokedexLogic/colorSearch';
+import searchType from '../pokedexLogic/typeSearch';
+import searchRegion from '../pokedexLogic/regionSearch';
+import search from '../pokedexLogic/search.js'
+
+
+import getColorChoices from '../pokedexLogic/getColorChoices'
+import getRegionChoices from '../pokedexLogic/getRegionChoices'
+import getTypeChoices from '../pokedexLogic/getTypeChoices'
+// import searchType from '../pokedexLogic/typeSearch';
 
 class App extends React.Component{
     state = {
-      colorsChoices: ['foo', 'bar'],
-      typeChoices: ['foo', 'bar'],
-      regionChoices: ['foo', 'bar'],
+      colorsChoices: [],
+      typeChoices: [],
+      regionChoices: [],
+      searchResults: []
     }
 
     componentDidMount = () => {
@@ -27,7 +33,23 @@ class App extends React.Component{
       .then(regions => this.setState({regionChoices: regions}));
 
 
+      // colorSearch('red')
+      // // .then()
+      //
+      // searchType('fire')
+      //
+      // searchRegion('kanto')
+      // .then(result => this.setState({searchResults: result}))
+
+      search('blue', 'water', 'kanto')
+      // .then(result => this.setState({searchResults: result}))
+      // .then(result => console.log(result))
+
+
     }
+
+
+
 
     render(){
         return(
@@ -39,6 +61,8 @@ class App extends React.Component{
               {this.state.typeChoices}
               <br></br>
               {this.state.regionChoices}
+              <br></br>
+              {this.state.searchResults.length}
             </div>
         );
     }
