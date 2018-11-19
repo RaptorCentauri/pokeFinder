@@ -4,9 +4,13 @@ import searchType from './typeSearch';
 
 const search = async (colorSearch, typeSearch, regionSearch) => {
 
-let colorResult = await searchColor(colorSearch);
-let typeResult = await searchType(typeSearch)
-let regionResult = await searchRegion(regionSearch)
+  let searchParams = []
+
+  if(colorSearch) searchParams.push(await searchColor(colorSearch))
+
+  if(typeSearch) searchParams.push(await searchType(typeSearch))
+
+  if(regionSearch) searchParams.push(await searchRegion(regionSearch))
 
 
   let instersection = (...args) => {
@@ -16,6 +20,7 @@ let regionResult = await searchRegion(regionSearch)
       for (let arg in args) {
         sortSets.push(new Set(args[arg].sort((a,b) => a-b)))
       }
+
 
       for (let set of sortSets) {
         sortSizes.push(set.size)
@@ -42,10 +47,7 @@ let regionResult = await searchRegion(regionSearch)
 
   }
 
-  let final = instersection(regionResult, typeResult, colorResult,);
-
-
-  // console.log(final);
+  let final = instersection(...searchParams);
 
   return final
 }
