@@ -9,7 +9,9 @@ import getTypeChoices from '../pokedexLogic/getTypeChoices'
 import search from '../pokedexLogic/search.js'
 import searchID from '../pokedexLogic/searchID.js'
 
-import ChoiceButtons from './components/choiceButtons.js'
+import ChoiceButtons from './components/ChoiceButtons.js'
+import MiniDex from './components/MiniDex.js'
+
 
 // import searchType from '../pokedexLogic/typeSearch';
 
@@ -25,6 +27,9 @@ class App extends React.Component{
     }
 
 
+    // {this.state.searchResults.map((result, index) =>   <MiniDex name={result.name} key={index}/>)}
+
+
   componentDidUpdate = async (prevProps, prevState) => {
     if(prevState.chosenColor != this.state.chosenColor || prevState.chosenType != this.state.chosenType || prevState.chosenRegion != this.state.chosenRegion){
       if(this.state.chosenColor || this.state.chosenType || this.state.chosenRegion){
@@ -34,9 +39,9 @@ class App extends React.Component{
         this.setState({searchResults: results})
       }
       else{
-        this.setState({searchResults: []})
+        let results = await searchID()
+        this.setState({searchResults: results})
       }
-
     }
   }
 
@@ -49,19 +54,14 @@ class App extends React.Component{
 
       let regionChoices = await getRegionChoices()
       this.setState({regionChoices: regionChoices});
+
+      let results = await searchID()
+      this.setState({searchResults: results})
     }
 
     handleChooseColor = (color) => {color != this.state.chosenColor ? this.setState({chosenColor: color}) : this.setState({chosenColor: null}) }
     handleChooseType = (type) => {type != this.state.chosenType ? this.setState({chosenType: type}) : this.setState({chosenType: null}) }
     handleChooseRegion = (region) => {region != this.state.chosenRegion ? this.setState({chosenRegion: region}) : this.setState({chosenRegion: null}) }
-
-
-
-
-
-    // handleChooseType = (type) => this.setState({chosenType: type})
-    // handleChooseRegion = (region) => this.setState({chosenRegion: region})
-
 
 
     render(){
@@ -94,7 +94,10 @@ class App extends React.Component{
 
               <div>
                 RESULT:
-                {this.state.searchResults.map((result, index) =>   <ChoiceButtons name={result.name} key={index}/>)}
+                {this.state.searchResults.length >= 1 ?
+                  this.state.searchResults.map((result, index) =>   <MiniDex sprite={result.sprites.front_default} name={result.name} key={index}/>)
+                  : `There are no ${this.state.chosenColor} ${this.state.chosenType} Pokèmon in ${this.state.chosenRegion}`
+                }
               </div>
 
 
