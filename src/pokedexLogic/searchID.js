@@ -1,13 +1,27 @@
 import axios from 'axios';
 
 const searchID = async (searchID) => {
-
-  // console.table(searchID);
 	let idResults = [];
+
+
+	if(!searchID){
+		let response = await axios.get(`https://pokeapi.co/api/v2/pokemon/`);
+
+		let allPokemon = response.data.results;
+
+		for (let pokemon of allPokemon) {
+			let response = await axios.get(pokemon.url);
+			console.log(response.data);
+			idResults.push(response.data)
+		}
+
+		return  idResults
+	}
+
+
 
 	try {
     for (let id of searchID) {
-			// console.log(id);
       let response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}/`);
       idResults.push(response.data)
     }
