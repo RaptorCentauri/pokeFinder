@@ -6,8 +6,10 @@ const searchRegion = async (searchRegion) => {
 
 	try {
 		let response = await axios.get(`https://pokeapi.co/api/v2/pokedex/${searchRegion}/`);
+		// let response = await axios.get(`https://pokeapi.co/api/v2/region/${searchRegion}/`);
 
-		// console.log(response);
+
+		// console.log('rs',response);
 
 		let pokemons = response.data.pokemon_entries;
 
@@ -16,7 +18,7 @@ const searchRegion = async (searchRegion) => {
 		}
 
 		// console.table(regionResults);
-		regionResults.sort((a,b) => a-b);
+		// regionResults.sort((a,b) => a-b);
 
 		return regionResults;
 

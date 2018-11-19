@@ -14,7 +14,7 @@ const searchColor = async (searchColor) => {
 		}
 
 
-		colorResults.sort((a,b) => a-b);
+		// colorResults.sort((a,b) => a-b);
 		// console.table(colorResults);
 
 
